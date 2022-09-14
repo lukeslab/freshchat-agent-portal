@@ -1,0 +1,55 @@
+html {
+  box-sizing: border-box;
+  margin:0;
+  padding: 0;
+}
+
+*,
+*:after,
+*::before {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.app-body {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+}
+
+img{
+  max-width: 4rem;
+}
+
+
+
+.agent-portal-recipient-lookup button {
+  display:none;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 150px; 
+  cursor: pointer; 
+  background-color: white; 
+  margin: 10px auto 0px auto; 
+  border: 2px solid #468ACA; 
+  border-radius: 100px; 
+  padding: 1px 10px;
+}
+
+.agent-portal-recipient-lookup img {
+  width: 25px; 
+  height: 20px;
+}
+
+.agent-portal-recipient-lookup span {
+  color: #468ACA;
+  font-weight: bold;
+  font-size: 11px;
+}
