@@ -8,26 +8,53 @@ document.addEventListener('DOMContentLoaded', function() {
 })
 
 async function renderAgentPortal(){
+
   console.log("Agent-portal App Activated");
-  const rlButton = document.querySelector('.app-body > .recipient-lookup button');
-  
+  const appBody = document.querySelector('.app-body');
+  appBody.innerHTML = '';
+
   const email = await getCustomerEmail();
-  if (email) {
+  if (email) {;
+    await clearAppElements(appBody);
+
+    const rlButton = document.querySelector('.app-body > .recipient-lookup button');
     const {store_list, id} = await getCustomerDataFromFreshdesk(email);
-    
-    const mailboxes = showMailboxes(store_list);
     const openURL = showRecipientLookup(rlButton, email);
+    
+    showMailboxes(store_list);
     showOpenFreshdeskTickets(id, email);
     
     client.events.on('app.deactivated', () => {
       rlButton.removeEventListener('click', openURL);
-      mailboxes.removeChild(mailboxes.firstChild);
+      // mailboxes.removeChild(mailboxes.firstChild);
     })
   } else {
-    document.querySelector('.no-email').style.display = "block";
-    //no email found message
-    //cannot show mailboxes, RL button, open tickets, or tickets button.
+    let p = document.createElement('p');
+    p.innerText = 'App unavailable, email not found.';
+    appBody.append(p);
   }
+}
+
+function clearAppElements(appBody) {
+  
+  appBody.innerHTML = `
+  <div class="freshdesk-tickets">
+    <div class="counter">
+      <span class="count"></span>
+      <span>Open Ticket(s)</span>
+      <a>View Tickets</a>
+    </div>
+  </div>
+
+  <div class="recipient-lookup">
+    <div class="mailboxes">
+      
+    </div>
+    <button>
+      <img src="https://i.ibb.co/qBGyThG/reciplookupsvg-1.png">
+      <span>Recipient Lookup</span>
+    </button>
+  </div>`
 }
 
 async function getCustomerEmail() {
@@ -51,12 +78,12 @@ async function getCustomerDataFromFreshdesk(email){
 }
 
 function showMailboxes(store_list){
+
   const mailboxes = document.querySelector(".mailboxes");
   const p = document.createElement('p');
   p.innerText = store_list;
   mailboxes.append(p)
-  
-  return mailboxes;
+
 }
 
 function showRecipientLookup(button, email){
