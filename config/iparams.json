@@ -1,13 +1,12 @@
 {
-    "apiKey": {
-        "display_name": "API Key",
-        "description": "Please enter your api_key",
-        "type": "api_key",
-        "secure": true,
-        "required": true,
-        "type_attributes": {
-        "product": "freshchat"
-        },
-        "default_value": "ZMJa1FFn7JdGvP8ZPjXT"
+  "apiKey": {
+    "display_name": "Freshdesk API Key",
+    "description": "Please enter your Freshdesk API Key",
+    "type": "api_key",
+    "secure": true,
+    "required": true,
+    "type_attributes": {
+      "product": "freshdesk"
     }
+  }
 }

@@ -10,7 +10,10 @@
       }
     }
   },
-  "whitelisted-domains": [],
+  "whitelisted-domains": [
+    "https://ipostal1.freshdesk.com",
+    "https://ipostal1.freshchat.com"
+  ],
   "engines": {
     "node": "14.20.0",
     "fdk": "8.4.0"
