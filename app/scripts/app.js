@@ -8,26 +8,23 @@ document.addEventListener('DOMContentLoaded', function() {
 })
 
 async function renderAgentPortal(){
-
   console.log("Agent-portal App Activated");
   const appBody = document.querySelector('.app-body');
   appBody.innerHTML = '';
 
   const email = await getCustomerEmail();
   if (email) {;
-    await clearAppElements(appBody);
+    await loadAppElements(appBody);
 
-    const rlButton = document.querySelector('.app-body > .recipient-lookup button');
     const {store_list, id} = await getCustomerDataFromFreshdesk(email);
+    
+    const rlButton = document.querySelector('.app-body > .recipient-lookup button');
     const openURL = showRecipientLookup(rlButton, email);
     
     showMailboxes(store_list);
     showOpenFreshdeskTickets(id, email);
     
-    client.events.on('app.deactivated', () => {
-      rlButton.removeEventListener('click', openURL);
-      // mailboxes.removeChild(mailboxes.firstChild);
-    })
+    client.events.on('app.deactivated', () => rlButton.removeEventListener('click', openURL))
   } else {
     let p = document.createElement('p');
     p.innerText = 'App unavailable, email not found.';
@@ -35,7 +32,7 @@ async function renderAgentPortal(){
   }
 }
 
-function clearAppElements(appBody) {
+function loadAppElements(appBody) {
   
   appBody.innerHTML = `
   <div class="freshdesk-tickets">
@@ -66,14 +63,23 @@ async function getCustomerEmail() {
 }
 
 async function getCustomerDataFromFreshdesk(email){
-
-  const requestURL = `https://ipostal1.freshdesk.com/api/v2/contacts?email=${email}`;
-  const options = {headers: {"Authorization": "Basic <%= encode(iparam.apiKey) %>"}};
-  const data = await client.request.get(requestURL, options);
-  const response = JSON.parse(data.response);
-
-  const [{custom_fields: {store_list = "No mailboxes found"}, id}] = response;
-  return {store_list, id};
+  try {
+    
+    const requestURL = `https://ipostal1.freshdesk.com/api/v2/contacts?email=${email}`;
+    const options = {headers: {"Authorization": "Basic <%= encode(iparam.apiKey) %>"}};
+    const data = await client.request.get(requestURL, options);
+    const response = JSON.parse(data.response);
+  
+    const [{custom_fields: {store_list = "No mailboxes found"}, id}] = response;
+    return {store_list, id};  
+  } catch (error) {
+    // console.error('Mailboxes not retrieved, ser is not in freshdesk.')
+    const store_list = 'No mailboxes found, user not in Freshdesk';
+    const id = '';
+    return {store_list, id};
+  }
+  
+  
   
 }
 
@@ -100,7 +106,6 @@ function showRecipientLookup(button, email){
 
   return openURL;
 }
-
 
 async function showOpenFreshdeskTickets(id, email){
   console.log(`Getting tickets for ${email}`)
