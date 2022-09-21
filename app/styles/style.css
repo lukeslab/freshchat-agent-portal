@@ -83,3 +83,7 @@ button, a {
   width: 100px;
   text-align:center;
 }
+
+.zero-tickets{ 
+  color: limegreen;
+}

@@ -27,8 +27,8 @@ async function renderAgentPortal(){
     client.events.on('app.deactivated', () => rlButton.removeEventListener('click', openURL))
   } else {
     let p = document.createElement('p');
-    p.innerText = 'App unavailable, email not found.';
-    appBody.append(p);
+    p.innerText = 'No email provided.';
+    appBody.append(p);    
   }
 }
 
@@ -74,8 +74,9 @@ async function getCustomerDataFromFreshdesk(email){
     return {store_list, id};  
   } catch (error) {
     // console.error('Mailboxes not retrieved, ser is not in freshdesk.')
-    const store_list = 'No mailboxes found, user not in Freshdesk';
+    const store_list = 'This email was not found in Freshdesk.';
     const id = '';
+    document.querySelector('.freshdesk-tickets').style.display = 'none';
     return {store_list, id};
   }
   
@@ -116,6 +117,10 @@ async function showOpenFreshdeskTickets(id, email){
     const response = JSON.parse(data.response);
 
     let openTickets = response.filter( ticket => ticket.status === 2).length;
+    if (openTickets === 0) {
+      document.querySelector('.freshdesk-tickets').classList = "freshdesk-tickets zero-tickets"
+      document.querySelector('.freshdesk-tickets a').style.display = 'none';
+    }
     console.log(`Found ${openTickets} open ticket(s).`)
 
     document.querySelector('.freshdesk-tickets .count').innerText = openTickets;
@@ -125,7 +130,6 @@ async function showOpenFreshdeskTickets(id, email){
     // the requestor must be the users Freshdesk ID.
     const requestor = encodeURIComponent(`:[${id}]`);
     const viewTicketURL = `https://ipostal1.freshdesk.com/a/tickets/filters/search?orderBy=created_at&orderType=desc&q[]=status${status}&q[]=requester${requestor}&ref=all_tickets`
-    
     const fdButton = document.querySelector('.freshdesk-tickets a');
     fdButton.setAttribute('href', viewTicketURL);
     fdButton.setAttribute('target', '_blank');
