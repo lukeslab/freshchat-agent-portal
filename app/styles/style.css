@@ -50,10 +50,11 @@ button, a {
 }
 
 /* Recipient Lookup Button */
-.app-body > .recipient-lookup button {
-  display:none;
+.app-body > .recipient-lookup a {
+  display: none;
   align-items: center;
   justify-content: space-evenly;
+  text-decoration: none;;
 }
 
 .app-body > .recipient-lookup img {

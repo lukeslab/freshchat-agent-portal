@@ -18,13 +18,11 @@ async function renderAgentPortal(){
 
     const {store_list, id} = await getCustomerDataFromFreshdesk(email);
     
-    const rlButton = document.querySelector('.app-body > .recipient-lookup button');
-    const openURL = showRecipientLookup(rlButton, email);
+    showRecipientLookup(email);
     
     showMailboxes(store_list);
     showOpenFreshdeskTickets(id, email);
     
-    client.events.on('app.deactivated', () => rlButton.removeEventListener('click', openURL))
   } else {
     let p = document.createElement('p');
     p.innerText = 'No email provided.';
@@ -47,10 +45,10 @@ function loadAppElements(appBody) {
     <div class="mailboxes">
       
     </div>
-    <button>
+    <a>
       <img src="https://i.ibb.co/qBGyThG/reciplookupsvg-1.png">
       <span>Recipient Lookup</span>
-    </button>
+    </a>
   </div>`
 }
 
@@ -93,19 +91,13 @@ function showMailboxes(store_list){
 
 }
 
-function showRecipientLookup(button, email){
-  button.style.display = 'flex';
-  button.addEventListener('click', openURL);
-  
-  function openURL() {
-    console.log(email);
-    let recipientLookupURL = `https://ipostal1.com/CP/customers_lookup.php?expired=&logged=&action=process&status=all&doc_status=all&preapproval=&do_not_email_customer=all&type=0&billing_option=all&search=${email}&search_pob=&search_phone=&search_id=&search_button=search`;
-    console.log(recipientLookupURL);
-  
-    window.open(recipientLookupURL, "_blank");
-  }
+function showRecipientLookup(email){
+  const rlButton = document.querySelector('.app-body > .recipient-lookup a');
+  rlButton.style.display = 'flex';
 
-  return openURL;
+  let recipientLookupURL = `https://ipostal1.com/CP/customers_lookup.php?expired=&logged=&action=process&status=all&doc_status=all&preapproval=&do_not_email_customer=all&type=0&billing_option=all&search=${email}&search_pob=&search_phone=&search_id=&search_button=search`;
+  rlButton.setAttribute('href', recipientLookupURL);
+  rlButton.setAttribute('target', '_blank');
 }
 
 async function showOpenFreshdeskTickets(id, email){
