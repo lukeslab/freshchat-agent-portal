@@ -32,12 +32,16 @@ async function renderAgentPortal(){
 
 function loadAppElements(appBody) {
   
+  function addAgentPortalTags(){
+
+  }
+
   appBody.innerHTML = `
   <div class="freshdesk-tickets">
     <div class="counter">
       <span class="count"></span>
       <span>Open Ticket(s)</span>
-      <a>View Tickets</a>
+      <a onClick="addAgentPortalTags">View Tickets</a>
     </div>
   </div>
 
@@ -77,9 +81,6 @@ async function getCustomerDataFromFreshdesk(email){
     document.querySelector('.freshdesk-tickets').style.display = 'none';
     return {store_list, id};
   }
-  
-  
-  
 }
 
 function showMailboxes(store_list){
@@ -103,6 +104,8 @@ function showRecipientLookup(email){
 async function showOpenFreshdeskTickets(id, email){
   console.log(`Getting tickets for ${email}`)
   try {
+
+    //Save the ticket ids into local storage for use in addAgentPortalTags?
     const requestURL = `https://ipostal1.freshdesk.com/api/v2/tickets?email=${email}`;
     const options = {headers: {"Authorization": "Basic <%= encode(iparam.apiKey) %>"}}
     const data = await client.request.get(requestURL, options);
