@@ -33,7 +33,7 @@ async function renderAgentPortal(){
 function loadAppElements(appBody) {
   
   function addAgentPortalTags(){
-
+    console.log('Added tags!')
   }
 
   appBody.innerHTML = `
@@ -41,7 +41,7 @@ function loadAppElements(appBody) {
     <div class="counter">
       <span class="count"></span>
       <span>Open Ticket(s)</span>
-      <a onClick="addAgentPortalTags">View Tickets</a>
+      <a>View Tickets</a>
     </div>
   </div>
 
@@ -128,7 +128,22 @@ async function showOpenFreshdeskTickets(id, email){
     const fdButton = document.querySelector('.freshdesk-tickets a');
     fdButton.setAttribute('href', viewTicketURL);
     fdButton.setAttribute('target', '_blank');
-
+    fdButton.addEventListener('click', async (e, options)=> {
+      // use openTickets to update them with the tag
+      const requestURL = `https://ipostal1.freshdesk.com/api/v2/tickets/bulk_update`
+      const ticketIDs = [610193,654262,654264]
+      const options = {
+        headers: {"Authorization": "Basic <%= encode(iparam.apiKey) %>"},
+        "bulk_action":{
+          "ids": ticketIDs,
+          "properties": {
+            "tags": "Agent Portal"
+          }
+        }
+      }
+      const data = await client.request.get(requestURL, options);
+      console.log('Tags added!');
+    })
 
   } catch (error) {
     const response = JSON.parse(error.response)
