@@ -111,10 +111,11 @@ async function showOpenFreshdeskTickets(id, email){
     const data = await client.request.get(requestURL, options);
     const response = JSON.parse(data.response);
 
-    let openTickets = response.filter( ticket => ticket.status === 2).length;
+    const openTickets = response.filter( ticket => ticket.status === 2).length;
     if (openTickets === 0) {
       document.querySelector('.freshdesk-tickets').classList = "freshdesk-tickets zero-tickets"
       document.querySelector('.freshdesk-tickets a').style.display = 'none';
+      return;
     }
     console.log(`Found ${openTickets} open ticket(s).`)
 
@@ -125,25 +126,31 @@ async function showOpenFreshdeskTickets(id, email){
     // the requestor must be the users Freshdesk ID.
     const requestor = encodeURIComponent(`:[${id}]`);
     const viewTicketURL = `https://ipostal1.freshdesk.com/a/tickets/filters/search?orderBy=created_at&orderType=desc&q[]=status${status}&q[]=requester${requestor}&ref=all_tickets`
+    
     const fdButton = document.querySelector('.freshdesk-tickets a');
     fdButton.setAttribute('href', viewTicketURL);
     fdButton.setAttribute('target', '_blank');
-    fdButton.addEventListener('click', async (e, options)=> {
-      // use openTickets to update them with the tag
+    fdButton.addEventListener('click', addAgentPortalTags)
+    
+    async function addAgentPortalTags(){
       const requestURL = `https://ipostal1.freshdesk.com/api/v2/tickets/bulk_update`
       const ticketIDs = [610193,654262,654264]
-      const options = {
-        headers: {"Authorization": "Basic <%= encode(iparam.apiKey) %>"},
-        "bulk_action":{
-          "ids": ticketIDs,
-          "properties": {
-            "tags": "Agent Portal"
+      const data = await client.request.post(requestURL, {
+        headers: {
+          "Authorization": "Basic <%= encode(iparam.apiKey) %>",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          "bulk_action": {
+            "ids": ticketIDs,
+            "properties": {
+              "tags": ["Agent Portal"]
+            }
           }
-        }
-      }
-      const data = await client.request.get(requestURL, options);
+        })
+      });
       console.log('Tags added!');
-    })
+    }
 
   } catch (error) {
     const response = JSON.parse(error.response)
