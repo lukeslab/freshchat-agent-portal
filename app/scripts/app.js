@@ -13,7 +13,7 @@ async function renderAgentPortal(){
   appBody.innerHTML = '';
 
   const email = await getCustomerEmail();
-  if (email) {;
+  if (email) {
     await loadAppElements(appBody);
 
     const {store_list, id} = await getCustomerDataFromFreshdesk(email);
@@ -24,15 +24,12 @@ async function renderAgentPortal(){
     showOpenFreshdeskTickets(id, email);
     
   } else {
-    let p = document.createElement('p');
-    p.innerText = 'No email provided.';
-    appBody.append(p);    
+    // let p = document.createElement('p');
+    // p.innerText = 'No email provided.';
+    // appBody.append(p);    
+    appBody.innerHTML = "<p>No email provided.</p>";
   }
 }
-
-
-
-
 
 
 

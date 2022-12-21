@@ -15,7 +15,12 @@
     "https://ipostal1.freshchat.com"
   ],
   "engines": {
+<<<<<<< HEAD
     "node": "14.20.0",
     "fdk": "8.6.6"
+=======
+    "node": "14.21.2",
+    "fdk": "8.6.7"
+>>>>>>> bd50dfab00091a70fdff37204b3ec61844f38ef4
   }
 }
