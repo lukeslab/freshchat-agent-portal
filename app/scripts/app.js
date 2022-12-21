@@ -13,7 +13,7 @@ async function renderAgentPortal(){
   appBody.innerHTML = '';
 
   const email = await getCustomerEmail();
-  if (email) {;
+  if (email) {
     await loadAppElements(appBody);
 
     const {store_list, id} = await getCustomerDataFromFreshdesk(email);
@@ -24,9 +24,10 @@ async function renderAgentPortal(){
     showOpenFreshdeskTickets(id, email);
     
   } else {
-    let p = document.createElement('p');
-    p.innerText = 'No email provided.';
-    appBody.append(p);    
+    // let p = document.createElement('p');
+    // p.innerText = 'No email provided.';
+    // appBody.append(p);    
+    appBody.innerHTML = "<p>No email provided.</p>";
   }
 }
 
@@ -57,7 +58,7 @@ async function getCustomerEmail() {
   if (email) {
     console.log(`Got email: ${email}`)
     return encodeURIComponent(email);
-  } else return email;
+  } else return null;
 }
 
 async function getCustomerDataFromFreshdesk(email){
@@ -77,17 +78,15 @@ async function getCustomerDataFromFreshdesk(email){
     document.querySelector('.freshdesk-tickets').style.display = 'none';
     return {store_list, id};
   }
-  
-  
-  
 }
 
 function showMailboxes(store_list){
-
+  console.log("Showing mailbox:", store_list )
   const mailboxes = document.querySelector(".mailboxes");
   const p = document.createElement('p');
   p.innerText = store_list;
-  mailboxes.append(p)
+  // mailboxes.appendChild(p)
+  mailboxes.innerHTML = p.outerHTML
 
 }
 
