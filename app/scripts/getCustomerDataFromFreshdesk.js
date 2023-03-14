@@ -1,20 +1,22 @@
 async function getCustomerDataFromFreshdesk(email){
-    try {
-  
-      const requestURL = `https://ipostal1.freshdesk.com/api/v2/contacts?email=${email}`;
-      const options = {headers: {"Authorization": "Basic <%= encode(iparam.apiKey) %>"}};
-      const data = await client.request.get(requestURL, options);
+    const customerData = {}
+      const data = await client.request.invokeTemplate("getCustomerDataFromFreshdesk", {
+        context: { "email": email }
+      })
+      console.log("Customer Data", data)
       const response = JSON.parse(data.response);
-    
-      const [{custom_fields: {store_list = "No mailboxes found"}, id}] = response;
-      return {store_list, id};  
-  
-    } catch (error) {
-  
-      const store_list = 'This email was not found in Freshdesk.';
-      const id = '';
-      document.querySelector('.freshdesk-tickets').style.display = 'none';
-      return {store_list, id};
-  
-    }
+      
+      // The customer's email is not in freshdesk
+      if(!response.length) {
+        console.log('no email in fresh')
+        customerData.error = 'This email was not found in freshdesk.'
+        return customerData
+      }
+
+      // The customer has an email in FD but no store_list value
+      const [{custom_fields: { store_list }, id}] = response;
+      customerData.storeList = store_list ? store_list : "No mailboxes found."
+      customerData.id = id
+      
+      return customerData;  
 }

@@ -1,5 +1,5 @@
 {
-  "platform-version": "2.2",
+  "platform-version": "2.3",
   "product": {
     "freshchat": {
       "location": {
@@ -7,15 +7,16 @@
           "url": "index.html",
           "icon": "styles/images/image2vector.svg"
         }
+      },
+      "requests": {
+        "getCustomerDataFromFreshdesk": {},
+        "getOpenTicketsByCustomerEmail": {},
+        "addAgentPortalTags": {}
       }
     }
   },
-  "whitelisted-domains": [
-    "https://ipostal1.freshdesk.com",
-    "https://ipostal1.freshchat.com"
-  ],
   "engines": {
-    "node": "14.21.2",
-    "fdk": "8.6.7"
+    "node": "18.12.1",
+    "fdk": "9.0.0"
   }
 }
