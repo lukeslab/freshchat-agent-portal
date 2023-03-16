@@ -34,23 +34,23 @@ Before an agent interacts with the button, they must meet the following criteria
 There are five app states, each of which will show different interfaces depending on the result. If an email is not provided through the chat widget, then the app will only show the error message "No email was provided" (Figure 1). If an email was provide but it was not found in Freshdesk, then the agent will see a message that states this and also have recipient lookup functionality (Figure 2). If an email was provided, is in Freshdesk, but does not have a store_list value, the agent will see an error message that "No mailboxes were found" but will still have access to the Open Tickets counter, View Tickets button, and Recipient Lookup button (Figure 3). Finally, if an email was provided, is found in Freshdesk, and has store_list value, the agent will be able to see the mailboxes listed in this value + all of the features mentioned above (Figures 4 & 5). For the final two cases the open tickets counter will be colored green if the number of open tickets is zero. If the number of open tickets exceeds zero, it will be colored red and provide a view tickets button. Example conversations are provided below.
 
 Figure 1 - Email not provided
-![Screenshot of email not provided](fig1.png)
+![Screenshot of email not provided](docs/fig1.png)
 https://ipostal1.freshchat.com/a/236306003128395/inbox/2/0/conversation/720870712804149?dev=true
 
 Figure 2 - Email provided but not in freshdesk.
-![Screenshot of email provided but not in freshdesk](fig2.png)
+![Screenshot of email provided but not in freshdesk](docs/fig2.png)
 https://ipostal1.freshchat.com/a/236306003128395/inbox/2/0/conversation/720867158787826?dev=true
 
 Figure 3 - Email provided and is in Freshdesk but does not have store_list value
-![Email provided and is in Freshdesk but does not have store_list value](fig3.png)
+![Email provided and is in Freshdesk but does not have store_list value](docs/ig3.png)
 https://ipostal1.freshchat.com/a/236306003128395/inbox/2/0/conversation/720872696968715?dev=true
 
 Figure 4 - Email provided, is in Freshdesk, has store_list property value, and zero open tickets
-![Email provided, is in Freshdesk, and has store_list property value](fig4.png)
+![Email provided, is in Freshdesk, and has store_list property value](docs/fig4.png)
 https://ipostal1.freshchat.com/a/236306003128395/inbox/2/0/conversation/720866553638500?dev=true
 
 Figure 5 - Email provided, is in Freshdesk, has store_list property value, and atleast 1 open ticket
-![Email provided, is in Freshdesk, has store_list property value, and atleast 1 open ticket](fig5.png)
+![Email provided, is in Freshdesk, has store_list property value, and atleast 1 open ticket](docs/fig5.png)
 
 # Known Issues
 
