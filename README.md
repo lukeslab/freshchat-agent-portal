@@ -42,7 +42,7 @@ Figure 2 - Email provided but not in freshdesk.
 https://ipostal1.freshchat.com/a/236306003128395/inbox/2/0/conversation/720867158787826?dev=true
 
 Figure 3 - Email provided and is in Freshdesk but does not have store_list value
-![Email provided and is in Freshdesk but does not have store_list value](docs/ig3.png)
+![Email provided and is in Freshdesk but does not have store_list value](docs/fig3.png)
 https://ipostal1.freshchat.com/a/236306003128395/inbox/2/0/conversation/720872696968715?dev=true
 
 Figure 4 - Email provided, is in Freshdesk, has store_list property value, and zero open tickets
