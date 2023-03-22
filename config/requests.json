@@ -1,0 +1,41 @@
+{
+    "getCustomerDataFromFreshdesk": {
+        "schema": {
+            "method": "GET",
+            "host": "ipostal1.freshdesk.com",
+            "path": "/api/v2/contacts",
+            "headers": {
+                "Authorization" :"Basic <%= encode(iparam.apiKey) %>",
+                "Content-Type": "application/json"
+            },
+            "query": {
+                "email": "<%= context.email %>"
+            }
+        }
+    },
+    "getOpenTicketsByCustomerEmail": {
+        "schema": {
+            "method": "GET",
+            "host": "ipostal1.freshdesk.com",
+            "path": "/api/v2/tickets",
+            "headers": {
+                "Authorization" :"Basic <%= encode(iparam.apiKey) %>",
+                "Content-Type": "application/json"
+            },
+            "query": {
+                "email": "<%= context.email %>"
+            }
+        } 
+    },
+    "addAgentPortalTags": {
+        "schema": {
+            "method": "POST",
+            "host": "ipostal1.freshdesk.com",
+            "path": "/api/v2/tickets/bulk_update",
+            "headers": {
+                "Authorization" :"Basic <%= encode(iparam.apiKey) %>",
+                "Content-Type": "application/json"
+            }
+        }
+    }
+}

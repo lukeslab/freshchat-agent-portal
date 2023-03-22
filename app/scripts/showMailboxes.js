@@ -1,8 +1,9 @@
-function showMailboxes(store_list){
-    console.log("Showing mailbox:", store_list )
+function showMailboxes(customerData){
+    const {storeList, error} = customerData
     const mailboxes = document.querySelector(".mailboxes");
     const p = document.createElement('p');
-    p.innerText = store_list;
-    // mailboxes.appendChild(p)
+
+
+    p.innerText = error ? error : storeList
     mailboxes.innerHTML = p.outerHTML
 }

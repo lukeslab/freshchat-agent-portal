@@ -1,38 +1,34 @@
-document.addEventListener('DOMContentLoaded', function() {
-  app.initialized()
-    .then(function(_client){
-      console.log("App Initialized for first time")
-      window.client = _client;
-      client.events.on('app.activated', renderAgentPortal);
-    })
-})
+var client;
+
+(async function init() {
+  client = await app.initialized()
+  client.events.on('app.activated', renderAgentPortal)
+})()
 
 async function renderAgentPortal(){
   console.log("Agent-portal App Activated");
+  const noEmailElem = document.querySelector('.no-email')
   const appBody = document.querySelector('.app-body');
-  appBody.innerHTML = '';
+  const freshDeskTicketsElem = document.querySelector('.freshdesk-tickets')
+  
+  appBody.style.display = "flex"
+  freshDeskTicketsElem.style.display = "none"
+  noEmailElem.style.display = "none"
 
   const email = await getCustomerEmail();
-  if (email) {
-    await loadAppElements(appBody);
 
-    const {store_list, id} = await getCustomerDataFromFreshdesk(email);
-    
+  if(email) {
+    const customerData = await getCustomerDataFromFreshdesk(email);
+    const { id, error } = customerData
+    console.log(customerData)
     showRecipientLookup(email);
-    
-    showMailboxes(store_list);
-    showOpenFreshdeskTickets(id, email);
-    
+    showMailboxes(customerData);
+
+    if (!error) {
+      showOpenFreshdeskTickets(id, email);
+    }
   } else {
-    // let p = document.createElement('p');
-    // p.innerText = 'No email provided.';
-    // appBody.append(p);    
-    appBody.innerHTML = "<p>No email provided.</p>";
+    appBody.style.display = "none"
+    noEmailElem.style.display = "block"
   }
 }
-
-
-
-
-
-
